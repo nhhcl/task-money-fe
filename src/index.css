@@ -1,0 +1,263 @@
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #e8f5e9, #f1fff4);
+  overflow: hidden;
+}
+
+/* ===== LAYOUT ===== */
+.app-layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #1b5e20, #2e7d32);
+  color: white;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  animation: slideInLeft 0.6s ease;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  padding: 35px;
+  overflow-y: auto;
+  animation: fadeIn 0.6s ease;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0, 128, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(0, 128, 0, 0.15);
+}
+
+/* ===== TITLES ===== */
+h2 {
+  color: #1b5e20;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #2e7d32;
+  margin-bottom: 15px;
+}
+
+/* ===== INPUT ===== */
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #c8e6c9;
+  margin-right: 10px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #43a047;
+  box-shadow: 0 0 8px rgba(67, 160, 71, 0.3);
+}
+
+/* ===== BUTTON ===== */
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 500;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.btn-add {
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  color: white;
+}
+
+.btn-add:hover {
+  box-shadow: 0 6px 18px rgba(67, 160, 71, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-edit {
+  background: #81c784;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #66bb6a;
+}
+
+.btn-delete {
+  background: #ef5350;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #e53935;
+}
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th {
+  background: linear-gradient(90deg, #a5d6a7, #c8e6c9);
+  color: #1b5e20;
+  padding: 14px;
+  text-align: left;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e0f2f1;
+}
+
+tr {
+  transition: all 0.2s ease;
+}
+
+tr:hover {
+  background: #f1fff3;
+  transform: scale(1.01);
+}
+
+/* ===== IMAGE PREVIEW ===== */
+img {
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.1);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+button {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border: none;
+  padding: 9px 20px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  letter-spacing: 0.3px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(27, 94, 32, 0.35);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+thead {
+  background: #c8e6c9;
+}
+
+th {
+  padding: 16px;
+  font-weight: 700;
+  color: #1b5e20;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 14px 16px;
+  background: white;
+  color: var(--text-gray);
+}
+
+tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: 0.25s;
+}
+
+tbody tr:hover {
+  background: #f1f8f4;
+}
+input {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #dcdcdc;
+  margin-right: 10px;
+  outline: none;
+  font-weight: 500;
+  transition: 0.25s;
+}
+
+input:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}

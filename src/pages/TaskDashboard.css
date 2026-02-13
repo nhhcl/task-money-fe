@@ -1,0 +1,258 @@
+.dashboard {
+  flex: 1;
+  padding: 30px 40px;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ===== CUSTOM DROPDOWN ===== */
+.dropdown {
+  position: relative;
+  width: 230px;
+}
+
+.dropdown-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 50px;
+  border: 2px solid var(--primary);
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-btn:hover {
+  box-shadow: 0 6px 18px rgba(27, 94, 32, 0.25);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  overflow: hidden;
+  animation: fadeIn 0.2s ease;
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown-item:hover {
+  background: #f1f8f4;
+}
+
+/* ===== WEEK HEADER ===== */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.weekday {
+  text-align: center;
+  font-weight: 600;
+  color: gray;
+}
+
+/* ===== CALENDAR ===== */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  position: relative; /* QUAN TRỌNG để z-index hoạt động đúng */
+}
+
+.day {
+  position: relative;
+  min-height: 90px;
+  padding: 8px;
+  border-radius: 12px;
+  background: white;
+  transition: 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #eee;
+  z-index: 1;
+}
+
+.day:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  z-index: 50; /* hover nổi lên trên */
+}
+
+.day-number {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+/* Điểm tổng */
+.day-point {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: white;
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* ===== DAY COLOR STATES ===== */
+.good-day {
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  color: white;
+}
+
+.bad-day {
+  background: linear-gradient(135deg, #ff4d4f, #ff7a7a);
+  color: white;
+}
+
+.no-data {
+  background: white;
+}
+
+/* ===== HOVER TASK PREVIEW ===== */
+.task-preview {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  background: white;
+  color: black;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+  font-size: 13px;
+  transition: 0.25s ease;
+  z-index: 100;
+}
+
+.day:hover .task-preview {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Text trong preview */
+.task-line {
+  font-size: 12px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== FOOTER STATS ===== */
+.month-summary {
+  margin-top: 35px;
+  display: flex;
+  gap: 25px;
+}
+
+.stat-box {
+  background: var(--card-bg);
+  padding: 18px 28px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,80,0,0.08);
+}
+
+.stat-title {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: gray;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ===== MONTH NAVIGATION ===== */
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.month-btn {
+  background: white;
+  border: 2px solid var(--primary);
+  padding: 6px 14px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.month-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.month-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+/* ICON BUTTON */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: 0.3s;
+}
+
+.icon-btn:hover {
+  transform: translateY(-3px);
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* COIN ACTIVE */
+.coin.active {
+  background: gold;
+}
+
+/* GOLD THEME */
+.gold-theme {
+  --primary: #c9a227;
+}

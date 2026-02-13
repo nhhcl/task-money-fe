@@ -1,0 +1,19 @@
+.page {
+  flex: 1;
+  padding: 50px;
+  animation: fadeIn 0.4s ease;
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  padding: 32px;
+  border-radius: 22px;
+  box-shadow: 0 15px 35px rgba(0, 80, 0, 0.08);
+  margin-bottom: 30px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
