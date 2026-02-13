@@ -1,16 +1,22 @@
 import { useState } from "react"
 import "./TaskDashboard.css"
+import { useNavigate } from "react-router-dom"
 
-function TaskDashboard() {
+function TaskDashboard({
+  selectedUser,
+  setSelectedUser,
+  taskData,
+  setTaskData,
+}) {
+  const navigate = useNavigate()
+
   const today = new Date()
 
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1)
   )
 
-  const [selectedUser, setSelectedUser] = useState("Nguyễn Văn A")
   const [open, setOpen] = useState(false)
-  const [paid, setPaid] = useState(false)
 
   const users = ["Nguyễn Văn A", "Trần Thị B", "Lê Văn C"]
 
@@ -21,70 +27,63 @@ function TaskDashboard() {
   const firstDayOfWeek = new Date(year, month, 1).getDay()
 
   /* =============================
-     TASK DATA STATE
+     FORMAT DATE KEY
   ============================== */
-
-  const [taskData, setTaskData] = useState({
-    "2026-02-03": [
-      { name: "Rửa chén", point: 3, completed: true },
-      { name: "Nấu ăn", point: 5, completed: true },
-    ],
-    "2026-02-05": [
-      { name: "Học bài", point: 6, completed: true },
-      { name: "Làm bài tập", point: 5, completed: true },
-    ],
-  })
 
   const formatDateKey = (day) => {
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
   }
 
+  /* =============================
+     TÍNH ĐIỂM NGÀY
+  ============================== */
+
   const getDayPoint = (dateKey) => {
-    const tasks = taskData[dateKey] || []
-    if (tasks.length === 0) return null
-    return tasks
-      .filter(t => t.completed)
-      .reduce((sum, t) => sum + t.point, 0)
+    const dayData = taskData[dateKey]
+    if (!dayData) return null
+
+    return dayData.tasks.reduce((sum, t) => sum + t.point, 0)
   }
+
+  /* =============================
+     TỔNG ĐIỂM THÁNG
+  ============================== */
 
   const getMonthTotal = () => {
     return Object.keys(taskData)
-      .filter(key => key.startsWith(`${year}-${String(month + 1).padStart(2, "0")}`))
+      .filter((key) =>
+        key.startsWith(`${year}-${String(month + 1).padStart(2, "0")}`)
+      )
       .reduce((sum, key) => sum + (getDayPoint(key) || 0), 0)
   }
 
   const getGoodDays = () => {
     let count = 0
+
     for (let i = 1; i <= daysInMonth; i++) {
       const point = getDayPoint(formatDateKey(i))
       if (point && point >= 10) count++
     }
+
     return count
   }
 
   /* =============================
-     ADD TASK
+     MARK PAID
   ============================== */
 
-  const addTaskToday = () => {
-    if (paid) return
+  const markPaid = (dateKey, e) => {
+    e.stopPropagation() // 🔥 tránh click coin bị navigate
 
-    const name = prompt("Tên nhiệm vụ?")
-    const point = Number(prompt("Số điểm?"))
+    if (!taskData[dateKey]) return
 
-    if (!name || !point) return
-
-    const todayKey = formatDateKey(today.getDate())
-
-    const updated = {
-      ...taskData,
-      [todayKey]: [
-        ...(taskData[todayKey] || []),
-        { name, point, completed: true },
-      ],
-    }
-
-    setTaskData(updated)
+    setTaskData((prev) => ({
+      ...prev,
+      [dateKey]: {
+        ...prev[dateKey],
+        paid: true,
+      },
+    }))
   }
 
   /* =============================
@@ -104,7 +103,7 @@ function TaskDashboard() {
   }
 
   return (
-    <div className={`dashboard ${paid ? "gold-theme" : ""}`}>
+    <div className="dashboard">
 
       {/* HEADER */}
       <div className="header">
@@ -115,53 +114,30 @@ function TaskDashboard() {
           <button className="month-btn" onClick={goNextMonth}>→</button>
         </div>
 
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-
-          {/* ADD TASK BUTTON */}
-          <button 
-            className="icon-btn"
-            onClick={addTaskToday}
-            disabled={paid}
-            title="Thêm nhiệm vụ"
-          >
-            ➕
-          </button>
-
-          {/* PAID BUTTON */}
-          <button
-            className={`icon-btn coin ${paid ? "active" : ""}`}
-            onClick={() => setPaid(true)}
-            title="Đã chuyển tiền"
-          >
-            🪙
-          </button>
-
-          {/* USER DROPDOWN */}
-          <div className="dropdown">
-            <div className="dropdown-btn" onClick={() => setOpen(!open)}>
-              {selectedUser}
-              <span>⌄</span>
-            </div>
-
-            {open && (
-              <div className="dropdown-menu">
-                {users.map((user) => (
-                  <div
-                    key={user}
-                    className="dropdown-item"
-                    onClick={() => {
-                      setSelectedUser(user)
-                      setOpen(false)
-                    }}
-                  >
-                    {user}
-                  </div>
-                ))}
-              </div>
-            )}
+        <div className="dropdown">
+          <div className="dropdown-btn" onClick={() => setOpen(!open)}>
+            {selectedUser}
+            <span>⌄</span>
           </div>
 
+          {open && (
+            <div className="dropdown-menu">
+              {users.map((user) => (
+                <div
+                  key={user}
+                  className="dropdown-item"
+                  onClick={() => {
+                    setSelectedUser(user)
+                    setOpen(false)
+                  }}
+                >
+                  {user}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
       </div>
 
       {/* WEEK HEADER */}
@@ -182,13 +158,13 @@ function TaskDashboard() {
           const day = i + 1
           const key = formatDateKey(day)
 
-          const tasks = taskData[key] || []
-          const completed = tasks.filter(t => t.completed)
+          const dayData = taskData[key]
           const totalPoint = getDayPoint(key)
+          const isPaid = dayData?.paid
 
           let dayClass = "day"
 
-          if (!tasks.length) {
+          if (!dayData) {
             dayClass += " no-data"
           } else if (totalPoint >= 10) {
             dayClass += " good-day"
@@ -197,25 +173,32 @@ function TaskDashboard() {
           }
 
           return (
-            <div key={day} className={dayClass}>
+            <div
+              key={day}
+              className={dayClass}
+              onClick={() => navigate(`/day/${key}`)}
+            >
               <div className="day-number">{day}</div>
 
               {totalPoint !== null && (
                 <div className="day-point">{totalPoint}đ</div>
               )}
 
-              {completed.length > 0 && (
-                <div className="task-preview">
-                  {completed.map((task, index) => (
-                    <div key={index} className="task-line">
-                      • {task.name} ({task.point}đ)
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="day-actions">
+                <button
+                  className={`mini-btn coin-btn ${isPaid ? "active" : ""}`}
+                  onClick={(e) => markPaid(key, e)}
+                  disabled={isPaid}
+                  title="Đã thanh toán"
+                >
+                  🪙
+                </button>
+              </div>
+
             </div>
           )
         })}
+
       </div>
 
       {/* SUMMARY */}
